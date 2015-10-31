@@ -54,7 +54,7 @@ public class PagerFragment extends Fragment
     }
 
     private void setupViewFragmentsRtl() {
-        for (int i = NUM_PAGES-1;i > 0;i--)
+        for (int i = NUM_PAGES-1;i >= 0;i--)
         {
             Log.i("NJW", "RTL-i=" + i);
 
@@ -67,11 +67,18 @@ public class PagerFragment extends Fragment
     }
 
     private void setupViewFragment(int i) {
-        Date fragmentdate = new Date(System.currentTimeMillis()+((i-2)*86400000));
+        Date fragmentDate;
+        if (isRtl()) {
+            fragmentDate = new Date(System.currentTimeMillis()+((i+2)*86400000));
+
+        } else {
+            fragmentDate = new Date(System.currentTimeMillis()+((i-2)*86400000));
+
+        }
         //TODO: Remove magic number, consider how to get out code smell here.
         SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
         viewFragments[i] = new MainScreenFragment();
-        viewFragments[i].setFragmentDate(mformat.format(fragmentdate));
+        viewFragments[i].setFragmentDate(mformat.format(fragmentDate));
     }
 
 
@@ -97,7 +104,13 @@ public class PagerFragment extends Fragment
         @Override
         public CharSequence getPageTitle(int position)
         {
-            return getDayName(getActivity(),System.currentTimeMillis()+((position-2)*86400000));
+            if (isRtl()) {
+                return getDayName(getActivity(),System.currentTimeMillis()+((position+2)*86400000));
+
+            } else {
+                return getDayName(getActivity(),System.currentTimeMillis()+((position-2)*86400000));
+
+            }
                     //TODO: Cleanup/fix usage of currentTIme in both places, possibly allows for broken edge case, probably close to midnight
         }
         public String getDayName(Context context, long dateInMillis) {

@@ -224,6 +224,7 @@ public class myFetchService extends IntentService
                             Date fragmentdate = new Date(System.currentTimeMillis()+((i-2)*86400000));
                             SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
                             mDate=mformat.format(fragmentdate);
+                                    //TODO: Use DateUtils or something to make this the same everywhere.
                         }
                     }
                     catch (Exception e)

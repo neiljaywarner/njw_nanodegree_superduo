@@ -28,6 +28,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     public MainScreenFragment()
     {
     }
+    //TODO: Use newInstance pattern.
 
     private void update_scores()
     {

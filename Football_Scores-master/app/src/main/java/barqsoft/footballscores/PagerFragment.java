@@ -30,18 +30,28 @@ public class PagerFragment extends Fragment
         View rootView = inflater.inflate(R.layout.pager_fragment, container, false);
         mPagerHandler = (ViewPager) rootView.findViewById(R.id.pager);
         mPagerAdapter = new myPageAdapter(getChildFragmentManager());
-        for (int i = 0;i < NUM_PAGES;i++)
-        {
-            Date fragmentdate = new Date(System.currentTimeMillis()+((i-2)*86400000));
-                //TODO: Remove magic number, consider how to get out code smell here.
-            SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
-            viewFragments[i] = new MainScreenFragment();
-            viewFragments[i].setFragmentDate(mformat.format(fragmentdate));
-        }
+        setupViewFragments();
         mPagerHandler.setAdapter(mPagerAdapter);
         mPagerHandler.setCurrentItem(MainActivity.current_fragment);
         return rootView;
     }
+
+    private void setupViewFragments() {
+        for (int i = 0;i < NUM_PAGES;i++)
+        {
+            setupViewFragment(i);
+        }
+    }
+
+    private void setupViewFragment(int i) {
+        Date fragmentdate = new Date(System.currentTimeMillis()+((i-2)*86400000));
+        //TODO: Remove magic number, consider how to get out code smell here.
+        SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
+        viewFragments[i] = new MainScreenFragment();
+        viewFragments[i].setFragmentDate(mformat.format(fragmentdate));
+    }
+
+
     private class myPageAdapter extends FragmentStatePagerAdapter
     {
         @Override
@@ -65,6 +75,7 @@ public class PagerFragment extends Fragment
         public CharSequence getPageTitle(int position)
         {
             return getDayName(getActivity(),System.currentTimeMillis()+((position-2)*86400000));
+                    //TODO: Cleanup/fix usage of currentTIme in both places, possibly allows for broken edge case, probably close to midnight
         }
         public String getDayName(Context context, long dateInMillis) {
             // If the date is today, return the localized version of "Today" instead of the actual

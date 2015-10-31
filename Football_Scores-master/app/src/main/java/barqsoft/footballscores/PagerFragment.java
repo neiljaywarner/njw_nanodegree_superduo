@@ -1,6 +1,7 @@
 package barqsoft.footballscores;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import java.util.Date;
 public class PagerFragment extends Fragment
 {
     public static final int NUM_PAGES = 5;
+    private static final String TAG = PagerFragment.class.getSimpleName() ;
     public ViewPager mPagerHandler;
     private myPageAdapter mPagerAdapter;
     private MainScreenFragment[] viewFragments = new MainScreenFragment[NUM_PAGES];
@@ -30,7 +33,13 @@ public class PagerFragment extends Fragment
         View rootView = inflater.inflate(R.layout.pager_fragment, container, false);
         mPagerHandler = (ViewPager) rootView.findViewById(R.id.pager);
         mPagerAdapter = new myPageAdapter(getChildFragmentManager());
-        setupViewFragments();
+        if (isRtl()) {
+            Log.i(TAG, "isRtl");
+            setupViewFragmentsRtl();
+        } else {
+            Log.i(TAG, "is NOT Rtl");
+            setupViewFragments();
+        }
         mPagerHandler.setAdapter(mPagerAdapter);
         mPagerHandler.setCurrentItem(MainActivity.current_fragment);
         return rootView;
@@ -39,8 +48,22 @@ public class PagerFragment extends Fragment
     private void setupViewFragments() {
         for (int i = 0;i < NUM_PAGES;i++)
         {
+            Log.i("NJW", "i=" + i);
             setupViewFragment(i);
         }
+    }
+
+    private void setupViewFragmentsRtl() {
+        for (int i = NUM_PAGES-1;i > 0;i--)
+        {
+            Log.i("NJW", "RTL-i=" + i);
+
+            setupViewFragment(i);
+        }
+    }
+
+    private boolean isRtl() {
+        return getResources().getBoolean(R.bool.rtl);
     }
 
     private void setupViewFragment(int i) {

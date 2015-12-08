@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
+import android.widget.TextView;
 
 /**
  * Created by neil on 11/7/15.
@@ -27,6 +28,8 @@ public class ScoresWidgetProvider extends AppWidgetProvider {
             // to the button
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
             views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
+            views.setTextViewText(R.id.score_textview, "10-4");
+          //  views.setImageViewResource(R.id.home_crest, R.drawable.abc_btn_check_material);
 
             // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId, views);

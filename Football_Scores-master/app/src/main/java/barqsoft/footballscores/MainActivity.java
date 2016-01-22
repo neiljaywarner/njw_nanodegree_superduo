@@ -45,8 +45,8 @@ public class MainActivity extends ActionBarActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_about)
         {
-            Intent start_about = new Intent(this,AboutActivity.class);
-            startActivity(start_about);
+            Intent intentAbout = new Intent(this,AboutActivity.class);
+            startActivity(intentAbout);
             return true;
         }
 

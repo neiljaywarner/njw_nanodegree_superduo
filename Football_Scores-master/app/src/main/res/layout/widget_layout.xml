@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="08:00"
-                    android:id="@+id/data_textview"/>
+                    android:id="@+id/time_textview"/>
 
             </LinearLayout>
 

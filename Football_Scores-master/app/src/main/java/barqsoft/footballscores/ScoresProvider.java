@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
 /**
  * Created by yehya khaled on 2/25/2015.
@@ -95,6 +96,8 @@ public class ScoresProvider extends ContentProvider
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
     {
+        Log.e("NJW", uri.toString());
+        Log.e("NJW", "Sort order=" + sortOrder);
         Cursor retCursor;
         //Log.v(FetchScoreTask.LOG_TAG,uri.getPathSegments().toString());
         int match = match_uri(uri);
@@ -107,7 +110,7 @@ public class ScoresProvider extends ContentProvider
                     DatabaseContract.SCORES_TABLE,
                     projection,null,null,null,null,sortOrder); break;
             case MATCHES_WITH_DATE:
-                    //Log.v(FetchScoreTask.LOG_TAG,selectionArgs[1]);
+                    Log.v("NJW","selectonarg0=" + selectionArgs[0]);
                     //Log.v(FetchScoreTask.LOG_TAG,selectionArgs[2]);
                     retCursor = mOpenHelper.getReadableDatabase().query(
                     DatabaseContract.SCORES_TABLE,

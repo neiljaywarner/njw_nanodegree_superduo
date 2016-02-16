@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import java.text.SimpleDateFormat;
@@ -31,7 +30,7 @@ public class ScoresWidgetProvider extends AppWidgetProvider {
 
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 
-            Uri uri = DatabaseContract.scores_table.buildScoreWithDate();
+            Uri uri = DatabaseContract.SCORES_TABLE.buildScoreWithDate();
             Date now = new Date();
 
             String today = mformat.format(now);
@@ -40,11 +39,11 @@ public class ScoresWidgetProvider extends AppWidgetProvider {
 
             //For now just show the latest score of the day.
             cursor.moveToLast();
-            int home_goals = cursor.getInt(cursor.getColumnIndex(DatabaseContract.scores_table.HOME_GOALS_COL));
-            int away_goals = cursor.getInt(cursor.getColumnIndex(DatabaseContract.scores_table.AWAY_GOALS_COL));
-            String time = cursor.getString(cursor.getColumnIndex(DatabaseContract.scores_table.TIME_COL));
-            String homeTeamName  = cursor.getString(cursor.getColumnIndex(DatabaseContract.scores_table.HOME_COL));
-            String awayTeamName = cursor.getString(cursor.getColumnIndex(DatabaseContract.scores_table.AWAY_COL));
+            int home_goals = cursor.getInt(cursor.getColumnIndex(DatabaseContract.SCORES_TABLE.HOME_GOALS_COL));
+            int away_goals = cursor.getInt(cursor.getColumnIndex(DatabaseContract.SCORES_TABLE.AWAY_GOALS_COL));
+            String time = cursor.getString(cursor.getColumnIndex(DatabaseContract.SCORES_TABLE.TIME_COL));
+            String homeTeamName  = cursor.getString(cursor.getColumnIndex(DatabaseContract.SCORES_TABLE.HOME_COL));
+            String awayTeamName = cursor.getString(cursor.getColumnIndex(DatabaseContract.SCORES_TABLE.AWAY_COL));
 
             views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
             views.setTextViewText(R.id.score_textview, Utilies.getScores(home_goals,away_goals));

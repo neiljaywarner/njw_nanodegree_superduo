@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +23,7 @@ public class PagerFragment extends Fragment
 {
     public static final int NUM_PAGES = 5;
     public static final int MILLIS_IN_A_DAY = 86400000;
+    private static final String TAG = PagerFragment.class.getSimpleName();
     public ViewPager mPagerHandler;
     private myPageAdapter mPagerAdapter;
     private MainScreenFragment[] viewFragments = new MainScreenFragment[NUM_PAGES];
@@ -65,10 +65,10 @@ public class PagerFragment extends Fragment
         Date fragmentDate;
         if (isRtl()) {
             fragmentDate = new Date(System.currentTimeMillis()+((i+2)* MILLIS_IN_A_DAY));
-            Log.i("NJW", "isrtl");
+            Log.i(TAG, "isrtl");
         } else {
             fragmentDate = new Date(System.currentTimeMillis()+((i-2)* MILLIS_IN_A_DAY));
-            Log.i("NJW", "isNOTrtl");
+            Log.i(TAG, "isNOTrtl");
 
         }
         //TODO: Remove magic number, consider how to get out code smell here.

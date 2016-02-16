@@ -45,7 +45,6 @@ public class ScoresWidgetProvider extends AppWidgetProvider {
             String time = cursor.getString(cursor.getColumnIndex(DatabaseContract.scores_table.TIME_COL));
             String homeTeamName  = cursor.getString(cursor.getColumnIndex(DatabaseContract.scores_table.HOME_COL));
             String awayTeamName = cursor.getString(cursor.getColumnIndex(DatabaseContract.scores_table.AWAY_COL));
-            Log.e("NJW", "home/away" + homeTeamName + "/" + awayTeamName);
 
             views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
             views.setTextViewText(R.id.score_textview, Utilies.getScores(home_goals,away_goals));

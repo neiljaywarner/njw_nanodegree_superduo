@@ -30,7 +30,7 @@ import barqsoft.footballscores.R;
  */
 public class myFetchService extends IntentService
 {
-    public static final String LOG_TAG = "myFetchService";
+    public static final String LOG_TAG = myFetchService.class.getSimpleName();
     public myFetchService()
     {
         super("myFetchService");
@@ -49,7 +49,7 @@ public class myFetchService extends IntentService
     {
 
         if (true) {
-            Log.i("NJW", "******is True - for testing/dev, about to load dummy data ******");
+            Log.i(LOG_TAG, "******is True - for testing/dev, about to load dummy data ******");
             processJSONdata(getString(R.string.dummy_data), getApplicationContext(), false);
             return;
         }
@@ -128,7 +128,7 @@ public class myFetchService extends IntentService
                     processJSONdata(getString(R.string.dummy_data), getApplicationContext(), false);
                     return;
                 } else {
-                    Log.i("NJW", "Real matches - num=" + matches.length());
+                    Log.i(LOG_TAG, "Real matches - num=" + matches.length());
                 }
 
 
@@ -145,8 +145,7 @@ public class myFetchService extends IntentService
     }
     private void processJSONdata (String JSONdata,Context mContext, boolean isReal)
     {
-        Log.e("NJW", JSONdata);
-        Log.e("NJW", "isReal=" + isReal);
+        Log.e(LOG_TAG, "isReal=" + isReal);
         //JSON data
         // This set of league codes is for the 2015/2016 season. In fall of 2016, they will need to
         // be updated. Feel free to use the codes
@@ -190,21 +189,17 @@ public class myFetchService extends IntentService
 
 
         try {
-            Log.i("NJW", "About to get matches array");
             JSONArray matches = new JSONObject(JSONdata).getJSONArray(FIXTURES);
-            Log.i("NJW", "got matches array");
 
 
             //ContentValues to be inserted
             Vector<ContentValues> values = new Vector <ContentValues> (matches.length());
             for(int i = 0;i < matches.length();i++)
             {
-                Log.i("NJW", "match#=" + (i+1));
                 JSONObject match_data = matches.getJSONObject(i);
                 League = match_data.getJSONObject(LINKS).getJSONObject(SOCCER_SEASON).
                         getString("href");
                 League = League.replace(SEASON_LINK,"");
-                Log.i("NJW", "League=" + League);
                 //This if statement controls which leagues we're interested in the data from.
                 //add leagues here in order to have them be added to the DB.
                 // If you are finding no data in the app, check that this contains all the leagues.
@@ -219,6 +214,7 @@ public class myFetchService extends IntentService
                         League.equals(Bundesliga3)         ||
                         League.equals(PRIMERA_DIVISION)     )
                         */
+                //FIXME: Use the above if needed?  Why would we want to filter this way?
 
                if (true) { // 'testing' = "357"
                     match_id = match_data.getJSONObject(LINKS).getJSONObject(SELF).
@@ -275,8 +271,8 @@ public class myFetchService extends IntentService
                     Log.v(LOG_TAG,match_id);
                     Log.v(LOG_TAG,mDate);
                     Log.v(LOG_TAG,mTime);
-                    Log.v("NJW",Home);
-                    Log.v("NJW",Away);
+                    Log.v(LOG_TAG,Home);
+                    Log.v(LOG_TAG,Away);
                     Log.v(LOG_TAG,Home_goals);
                     Log.v(LOG_TAG,Away_goals);
 

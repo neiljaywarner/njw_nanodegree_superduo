@@ -48,12 +48,6 @@ public class ScoresFetchService extends IntentService
     private void getData (String timeFrame)
     {
 
-        if (true) {
-            Log.i(LOG_TAG, "******is True - for testing/dev, about to load dummy data ******");
-            processJSONdata(getString(R.string.dummy_data), getApplicationContext(), false);
-            return;
-        }
-
         //FIXME: Consider plugging in the API key, although it's not actually in the rubric and I'm super behind.
         //**************************************************//
         //Creating fetch URL

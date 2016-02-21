@@ -103,7 +103,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
                     Intent intent = new Intent("com.google.zxing.client.android.SCAN");
                     intent.setPackage("com.google.zxing.client.android");
                     intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-                    startActivityForResult(intent, 0);
+                    startActivityForResult(intent, 1111);
                 }
                 catch (ActivityNotFoundException activityNotFoundException) {
                     Context context = getActivity();
@@ -147,12 +147,14 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == 0) {
+        Log.e("NJW", "On activity result, requestcode=" + requestCode);
+        if (requestCode == 1111) {
+            Log.e("NJW", "Result code=" + resultCode);
             if (resultCode == Activity.RESULT_OK) {
                 String contents = intent.getStringExtra("SCAN_RESULT");
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-                Log.i("NJW", "contents=" + contents);
-                Log.i("NJW", "format=" + format);
+                Log.e("NJW", "contents=" + contents);
+                Log.e("NJW", "format=" + format);
                 Context context = getActivity();
                 //TODO: Snack bar with ok/cancel where OK takes them to install it etc.
                 int duration = Toast.LENGTH_SHORT;
@@ -161,6 +163,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
                 toast.show();                // Handle successful scan
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 // Handle cancel
+                Log.e("NJW", "Canceled.");
             }
         }
     }

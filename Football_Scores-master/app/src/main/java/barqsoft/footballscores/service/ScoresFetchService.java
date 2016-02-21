@@ -47,8 +47,6 @@ public class ScoresFetchService extends IntentService
 
     private void getData (String timeFrame)
     {
-
-        //FIXME: Consider plugging in the API key, although it's not actually in the rubric and I'm super behind.
         //**************************************************//
         //Creating fetch URL
         final String BASE_URL = "http://api.football-data.org/alpha/fixtures"; //Base URL
@@ -288,4 +286,3 @@ public class ScoresFetchService extends IntentService
 
     }
 }
-

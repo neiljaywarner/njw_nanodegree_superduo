@@ -1,15 +1,17 @@
 package it.jaschke.alexandria;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -123,20 +126,32 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
         return rootView;
     }
 
+    private boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) this.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+    }
     private void fetchBook(String ean) {
-        //Once we have an ISBN, start a book intent
-        Intent bookIntent = new Intent(getActivity(), BookService.class);
-        bookIntent.putExtra(BookService.EAN, ean);
-        bookIntent.setAction(BookService.FETCH_BOOK);
-        getActivity().startService(bookIntent);
-        AddBookFragment.this.restartLoader();
+        if (isOnline()) {
+            //Once we have an ISBN, start a book intent
+            Intent bookIntent = new Intent(getActivity(), BookService.class);
+            bookIntent.putExtra(BookService.EAN, ean);
+            bookIntent.setAction(BookService.FETCH_BOOK);
+            getActivity().startService(bookIntent);
+            AddBookFragment.this.restartLoader();
+        } else {
+            Toast.makeText(this.getContext(), "Please check your internet connection and try again.", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.e("NJW", "in onActivityResult");
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        Log.e("NJW", "intentResultContents="+ intentResult.getContents());
+        Toast.makeText(this.getContext(), "Scan succeeded: Trying to fetch info for:" + intentResult.getContents(), Toast.LENGTH_LONG).show();
         fetchBook(intentResult.getContents());
     }
 

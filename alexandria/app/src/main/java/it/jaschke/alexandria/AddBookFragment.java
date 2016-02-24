@@ -79,12 +79,8 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
                     clearFields();
                     return;
                 }
-                //Once we have an ISBN, start a book intent
-                Intent bookIntent = new Intent(getActivity(), BookService.class);
-                bookIntent.putExtra(BookService.EAN, ean);
-                bookIntent.setAction(BookService.FETCH_BOOK);
-                getActivity().startService(bookIntent);
-                AddBookFragment.this.restartLoader();
+                fetchBook(ean);
+
             }
         });
 
@@ -127,11 +123,21 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
         return rootView;
     }
 
+    private void fetchBook(String ean) {
+        //Once we have an ISBN, start a book intent
+        Intent bookIntent = new Intent(getActivity(), BookService.class);
+        bookIntent.putExtra(BookService.EAN, ean);
+        bookIntent.setAction(BookService.FETCH_BOOK);
+        getActivity().startService(bookIntent);
+        AddBookFragment.this.restartLoader();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.e("NJW", "in onActivityResult");
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         Log.e("NJW", "intentResultContents="+ intentResult.getContents());
+        fetchBook(intentResult.getContents());
     }
 
     private void restartLoader(){
